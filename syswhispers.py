@@ -525,7 +525,7 @@ class SysWhispers(object):
 
     def _get_function_hash(self, function_name: str):
         hash = self.seed
-        name = function_name.replace('Nt', 'Zw', 1) + '\0'
+        name = function_name + '\0'
         ror8 = lambda v: ((v >> 8) & (2 ** 32 - 1)) | ((v << 24) & (2 ** 32 - 1))
 
         for segment in [s for s in [name[i:i + 2] for i in range(len(name))] if len(s) == 2]:

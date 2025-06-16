@@ -16287,5 +16287,87 @@
         "optional": false
       }
     ]
+  },
+  "NtUserSendInput": {
+    "type": "NTSTATUS",
+    "lib": "win32u.dll",
+    "params": [
+      {
+        "name": "nInputs",
+        "type": "UINT",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "pInputs",
+        "type": "CONST INPUT *",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "cbSize",
+        "type": "UINT",
+        "in": true,
+        "out": false,
+        "optional": false
+      }
+    ]
+  },
+  "NtUserMessageCall": {
+    "type": "LRESULT",
+    "lib": "win32u.dll",
+    "params": [
+      {
+        "name": "hwnd",
+        "type": "HWND",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "msg",
+        "type": "UINT",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "wParam",
+        "type": "WPARAM",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "lParam",
+        "type": "LPARAM",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "xParam",
+        "type": "ULONG_PTR",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "xpfnProc",
+        "type": "DWORD",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "bAnsi",
+        "type": "BOOL",
+        "in": true,
+        "out": false,
+        "optional": false
+      }
+    ]
   }
 }
