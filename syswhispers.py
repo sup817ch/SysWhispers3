@@ -505,7 +505,8 @@ class SysWhispers(object):
             raise ValueError('Invalid function name provided.')
 
         num_params = len(self.prototypes[function_name]['params'])
-        signature = f'EXTERN_C NTSTATUS {self.prefix.capitalize()}{function_name}('
+        return_type = self.prototypes[function_name]['type']
+        signature = f'EXTERN_C {return_type} {self.prefix.capitalize()}{function_name}('
         if num_params:
             for i in range(num_params):
                 param = self.prototypes[function_name]['params'][i]
