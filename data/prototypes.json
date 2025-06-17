@@ -16369,5 +16369,39 @@
         "optional": false
       }
     ]
+  },
+  "NtUserPostMessage": {
+    "type": "BOOL",
+    "lib": "win32u.dll",
+    "params": [
+      {
+        "name": "hwnd",
+        "type": "HWND",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "id",
+        "type": "int",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "wParam",
+        "type": "WPARAM",
+        "in": true,
+        "out": false,
+        "optional": false
+      },
+      {
+        "name": "lParam",
+        "type": "LPARAM",
+        "in": true,
+        "out": false,
+        "optional": false
+      }
+    ]
   }
 }
