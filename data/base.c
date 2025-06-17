@@ -190,6 +190,9 @@ BOOL SW3_PopulateSyscallList()
     if (SW3_SyscallList_ntdll.Count && SW3_SyscallList_win32u.Count)
         return TRUE;
 
+    // just to import win32u.dll(user32.dll depends on win32u.dll)
+    CloseWindow(NULL);
+
 #ifdef _WIN64
     PSW3_PEB Peb = (PSW3_PEB)__readgsqword(0x60);
 #else
