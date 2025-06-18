@@ -127,6 +127,11 @@ PVOID SC_Address(PVOID NtApiAddress)
 }
 #endif
 
+BOOL SW3_IsUpperCase(CHAR c)
+{
+    return (c >= 'A' && c <= 'Z');
+}
+
 VOID SW3_PopulateSyscallListByExportDir(PIMAGE_EXPORT_DIRECTORY ExportDirectory, PVOID DllBase, PSW3_SYSCALL_LIST SyscallList)
 {
     DWORD NumberOfNames = ExportDirectory->NumberOfNames;
@@ -145,7 +150,7 @@ VOID SW3_PopulateSyscallListByExportDir(PIMAGE_EXPORT_DIRECTORY ExportDirectory,
         PCHAR FunctionName = SW3_RVA2VA(PCHAR, DllBase, Names[NumberOfNames - 1]);
 
         // Is this a system call?
-        if (*(USHORT *)FunctionName == 0x744e)
+        if (*(USHORT *)FunctionName == 0x744e && SW3_IsUpperCase(FunctionName[2]))
         {
             Entries[i].Hash = SW3_HashSyscall(FunctionName);
             Entries[i].Address = Functions[Ordinals[NumberOfNames - 1]];
