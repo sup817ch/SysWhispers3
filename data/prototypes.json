@@ -14586,29 +14586,29 @@
         "optional": false
       },
       {
-        "name": "CompletionKey",
-        "type": "ULONG",
+        "name": "KeyContext",
+        "type": "PVOID",
         "in": true,
         "out": false,
-        "optional": false
+        "optional": true
       },
       {
-        "name": "IoStatusBlock",
-        "type": "PIO_STATUS_BLOCK",
-        "in": false,
-        "out": true,
-        "optional": false
+        "name": "ApcContext",
+        "type": "PVOID",
+        "in": true,
+        "out": false,
+        "optional": true
       },
       {
-        "name": "CompletionStatus",
+        "name": "IoStatus",
         "type": "NTSTATUS",
         "in": true,
         "out": false,
         "optional": false
       },
       {
-        "name": "NumberOfBytesTransfered",
-        "type": "ULONG",
+        "name": "IoStatusInformation",
+        "type": "ULONG_PTR",
         "in": true,
         "out": false,
         "optional": false
