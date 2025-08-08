@@ -42,12 +42,6 @@ DWORD SW3_HashSyscall(PCSTR FunctionName)
     return Hash;
 }
 
-#ifndef JUMPER
-PVOID SC_Address(PVOID NtApiAddress)
-{
-    return NULL;
-}
-#else
 PVOID SC_Address(PVOID NtApiAddress)
 {
     DWORD searchLimit = 512;
@@ -87,45 +81,12 @@ PVOID SC_Address(PVOID NtApiAddress)
         return SyscallAddress;
     }
 
-    // the 'syscall; ret' intructions have not been found,
-    // we will try to use one near it, similarly to HalosGate
-
-    for (ULONG32 num_jumps = 1; num_jumps < searchLimit; num_jumps++)
-    {
-        // let's try with an Nt* API below our syscall
-        SyscallAddress = SW3_RVA2VA(
-            PVOID,
-            NtApiAddress,
-            distance_to_syscall + num_jumps * 0x20);
-        if (!memcmp((PVOID)syscall_code, SyscallAddress, sizeof(syscall_code)))
-        {
-#if defined(DEBUG)
-            printf("Found Syscall Opcodes at address 0x%p\n", SyscallAddress);
-#endif
-            return SyscallAddress;
-        }
-
-        // let's try with an Nt* API above our syscall
-        SyscallAddress = SW3_RVA2VA(
-            PVOID,
-            NtApiAddress,
-            distance_to_syscall - num_jumps * 0x20);
-        if (!memcmp((PVOID)syscall_code, SyscallAddress, sizeof(syscall_code)))
-        {
-#if defined(DEBUG)
-            printf("Found Syscall Opcodes at address 0x%p\n", SyscallAddress);
-#endif
-            return SyscallAddress;
-        }
-    }
-
 #ifdef DEBUG
     printf("Syscall Opcodes not found!\n");
 #endif
 
     return NULL;
 }
-#endif
 
 BOOL SW3_IsUpperCase(CHAR c)
 {
@@ -155,6 +116,12 @@ VOID SW3_PopulateSyscallListByExportDir(PIMAGE_EXPORT_DIRECTORY ExportDirectory,
             Entries[i].Hash = SW3_HashSyscall(FunctionName);
             Entries[i].Address = Functions[Ordinals[NumberOfNames - 1]];
             Entries[i].SyscallAddress = SC_Address(SW3_RVA2VA(PVOID, DllBase, Entries[i].Address));
+
+            // win32u.dll has some entries that are not syscalls on Windows 11.
+            if (Entries[i].SyscallAddress == NULL)
+            {
+                continue;
+            }
 
             i++;
         }
